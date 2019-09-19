@@ -2,103 +2,65 @@
 
 If you're reading this, you're awesome! Thank you for helping us make this project great and being a part of the Material-UI community. Here are a few guidelines that will help you along the way.
 
-## Submitting a pull request
-
-Material-UI is a community project, so pull requests are always welcome, but, before working on a large change, it is best to open an issue first to discuss it with the maintainers.
-
-When in doubt, keep your pull requests small. To give a PR the best chance of getting accepted, don't bundle more than one feature or bug fix per pull request. It's always best to create two smaller PRs than one big one.
-
-As with issues, please begin the title with [ComponentName].
-
-When adding new features or modifying existing, please attempt to include tests to confirm the new behaviour. You can read more about our test setup in our test [README](https://github.com/mui-org/material-ui/blob/master/test/README.md).
-
-When submitting a new component, please add it to the [lab](https://github.com/mui-org/material-ui/tree/master/packages/material-ui-lab).
-
-### Branch Structure
-
-All stable releases are tagged ([view tags](https://github.com/mui-org/material-ui/tags)).
-At any given time, `master` represents the latest development version of the library.
-Patches or hotfix releases are prepared on an independent branch.
-
-#### `master` is for 4.x
-
-We will do our best to keep `master` in good shape, with tests passing at all times.
-
-### How to increase the chance of being accepted?
-
-We will only accept a pull request for which all tests pass. Make sure the following is true:
-- The branch is targeted at:
-  - `master` for ongoing development.
-- The branch is not behind its target.
-- If a feature is being added:
-   - If the result was already achievable with the core library, explain why this
-      feature needs to be added to the core.
-   - It includes relevant tests.
-   - If this is a common use case, considered adding an example to the documentation.
-- If a bug is being fixed, test cases that fail without the fix are included.
-- The code is formatted (run `yarn prettier`).
-- The code is linted (run `yarn lint`).
-- If API documentation is being changed in the source, `yarn docs:api` was run.
-- If props were added or prop types were changed, the TypeScript declarations were updated.
-- If TypeScript declarations were changed, `yarn typescript` passed.
-- If demos were changed, make sure `yarn docs:typescript:formatted` does not introduce changes.
-  See [About TypeScript demos](#about-typescript-demos).
-- The PR title follows the pattern `[Component] Imperative commit message`. (See: [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/#imperative) for a great explanation)
 
 ## Getting started
 
-Please create a new branch from an up to date master on your fork. (Note, urgent hotfixes should be branched off the latest stable release rather than master)
-
 1. Fork the Material-UI repository on GitHub
-2. Clone your fork to your local machine `git clone git@github.com:<yourname>/material-ui.git`
-3. Create a branch `git checkout -b my-topic-branch`
-4. Make your changes, lint, then push to to GitHub with `git push --set-upstream origin my-topic-branch`.
-5. Visit GitHub and make your pull request.
 
-If you have an existing local repository, please update it before you start, to minimise the chance of merge conflicts.
-```sh
+2. Clone the fork to your local machine and add upstream remote
+```
+git clone git@github.com:<yourname>/material-ui.git
+cd material-ui
 git remote add upstream git@github.com:mui-org/material-ui.git
+```
+
+NOTE: If you already have a cloned Material-UI repository make sure to synchronize it with the upstream one:
+```
 git checkout master
 git pull upstream master
-git checkout -b my-topic-branch
-yarn
 ```
+3. Create a branch `git checkout -b my-topic-branch`. Branching is usually done from `master`. ([check branches](#branch-structure))
 
-### Testing the documentation site
+4. Install `yarn` on your OS and start the development server with (in root folder of the project) `yarn && yarn start`. The sandbox application (with live reload) is available on `localhost:3000`.
 
-The documentation site is built with Material-UI and contains examples of all the components.
-To get started:
-```sh
-yarn
-yarn docs:dev
-```
-You can now access the documentation site [locally](http://localhost:3000).
-Changes to the docs will hot reload the site. If you make changes to TypeScript files
-in the docs run `yarn docs:typescript --watch` in a separate terminal.
+5. Make changes to the code, [format](#code-formatting) it properly, add [tests](#testing) and [update API documentation](#updating-api-documentation). If new feature was added, considered [adding a demo to the documentation](#adding-a-demo-in-the-documentation).
 
-Test coverage is limited at present, but where possible, please add tests for any changes you make. Tests can be run with `yarn test`.
+NOTE: If you are submitting a new component, add it to the [`material-ui-lab`](https://github.com/mui-org/material-ui/tree/master/packages/material-ui-lab) package instead of `material-ui` core package.
 
-### Updating the component API documentation
+6. Commit and push to your fork: `git push --set-upstream origin my-topic-branch`
 
-To update the component API documentation (auto generated from component PropTypes comments), run:
+7. On [github.com](https://github.com) go to your fork and make a PR back to `mui-org/material-ui`. Please name the PR as `[ComponentName] subject_line_format`. (Check [subject line format](https://chris.beams.io/posts/git-commit/#imperative))
+
+
+## Branch Structure
+
+`master` branch represents development as well as release branch for the latest version of Material-UI (v4.x).
+
+The two other branches (`v0.x` and `v3.x`) are for legacy versions of Material-UI.
+
+
+## Code formatting
+
+Material-UI uses [eslint](https://eslint.org/) for code linting. It is recommended to use eslint plugin for your editor. The linting can also be run manually with `yarn lint`.
+
+You can also run `yarn prettier` to reformat the code.
+
+Code formatting is also doublechecked by [Circle CI](https://circleci.com/) when you submit a PR.
+
+## Testing
+
+Although test coverage is limited at present, please include tests along the new code. Tests can be run with `yarn test`. You can read more about our test setup in our test [README](https://github.com/mui-org/material-ui/blob/master/test/README.md). 
+
+
+## Updating API documentation
+
+If you change the API of some component, you should update its PropTypes (including PropTypes' comments). The updated API documentation (shown on [Material-UI](https://material-ui.com/) webpage) can then be generated using:
 ```sh
 yarn docs:api
 ```
 
-### Building locally
 
-To use the provided build scripts with yarn you have to install `yarn@^1.9.0`.
-Depending on the package you want to build just run `yarn workspace @material-ui/PACKAGE build`.
-
-### Coding style
-
-Please follow the coding style of the project. Material-UI uses eslint, so if possible, enable linting in your editor to get real-time feedback. The linting rules can be run manually with the following command `yarn lint`.
-
-You can also run `yarn prettier` to reformat the code.
-
-Finally, when you submit a pull request, they are run again by Circle CI, but hopefully by then your code is already clean!
-
-## How do I add a new demo in the documentation?
+## Adding a demo in the documentation
 
 ### Let's get started.
 
@@ -155,33 +117,15 @@ of the TS demo to `docs/scripts/formattedTSDemos.js`. Otherwise our CI will fail
 If you are already familiar with TypeScript you can simply write the demo in TypeScript.
 `yarn docs:typescript:formatted` will transpile it down to JavaScript.
 
-## How do I use my local distribution of material-ui in any project?
 
-Sometimes it is good to test your changes in a real world scenario, in order to do that you can install your local distribution of Material-UI in any project with [yarn link](https://yarnpkg.com/lang/en/docs/cli/link/).
+## Build Material-UI package locally
 
-First, you have to build your local distribution of Material-UI:
+To use the provided build scripts with yarn you have to install `yarn@^1.9.0`.
+Depending on the package you want to build just run `yarn workspace @material-ui/PACKAGE build`.
 
-```shell
-# From the root folder of the material-ui project
-cd packages/material-ui
-yarn build
-```
+## Using local build of Material-UI in your application (`yarn link` mechanism)
 
-Then, you create a link to your local distribution:
-
-```shell
-cd build
-yarn link
-```
-
-Next, you link your local distribution of Material-UI to any project you want to try your changes:
-
-```shell
-# From the root folder of any project
-yarn link "@material-ui/core"
-```
-
-Now, every time you import `material-ui` in your project, it is going to use your local distribution.
+Not possible at the moment!
 
 ## Translations
 
